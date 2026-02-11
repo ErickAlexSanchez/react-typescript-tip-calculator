@@ -1,33 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import MenuItem from "./components/MenuItem"
+import OrderComponents from "./components/OrderComponents"
+import { menuItems } from "./data/db"
+import useOrder from "./hooks/useOrder"
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const { order, addItem, removeItem, clearOrder, tip, setTip, total } = useOrder();
+  
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <header className="bg-indigo-700 p-6">
+        <h1 className="text-center text-white text-2xl font-bold">Tip Calculator</h1>
+    </header>
+
+    <main className="m-auto mt-10 w-5/6 grid md:grid-cols-2 gap-4 md:w-3/4">
+        <div className="p-6 rounded-lg border-indigo-500 border-2">
+          <h2 className="text-xl font-bold mb-4">Menú</h2>
+          <div className="space-y-4">
+            {menuItems.map((item) => (
+              <MenuItem key={item.id} item={item} addItem={addItem} />
+            ))}
+          </div>
+        </div>
+        
+        <div className="p-6 rounded-lg border-indigo-500 border-2">
+          <OrderComponents
+            order={order}
+            removeItem={removeItem}
+            clearOrder={clearOrder}
+            tip={tip}
+            setTip={setTip}
+            total={total}
+          />
+        </div>
+      </main>
     </>
   )
 }
